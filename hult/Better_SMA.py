@@ -7,6 +7,11 @@ Created on Thu Jun 14 00:59:43 2019
 # This script enacts the crossover strategy in bt
 
 import bt
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
+
 # download data
 data = bt.get('aapl,msft,c,gs,ge', start='2010-01-01')
 
@@ -48,6 +53,7 @@ res_MA = bt.run(test_MA)
 
 # plot security weights to test logic
 res_MA.plot_security_weights()
+plt.show()
 
 
 # define a signal to feed to the SelectWhere class to select securities to trade
@@ -57,7 +63,7 @@ bt.algos.SelectWhere(signal, include_no_data=False)
 
 # first we create the Strategy
 s = bt.Strategy('above50sma', [bt.algos.SelectWhere(signal),
-                               bt.algos.WeighEqually(),
+                               bt.algos.WeighSpecified(),
                                bt.algos.Rebalance()])
 
 # now we create the Backtest
